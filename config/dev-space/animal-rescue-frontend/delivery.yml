@@ -1,0 +1,30 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: animal-rescue-frontend
+  labels:
+    app.kubernetes.io/part-of: animal-rescue-frontend
+    apps.tanzu.vmware.com/workload-type: web-dev
+    app.kubernetes.io/component: run
+    carto.run/workload-name: animal-rescue-frontend
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        conventions.apps.tanzu.vmware.com/applied-conventions: appliveview-sample/app-live-view-appflavour-check
+        developer.conventions/target-containers: workload
+      labels:
+        app.kubernetes.io/component: run
+        app.kubernetes.io/part-of: animal-rescue-frontend
+        apps.tanzu.vmware.com/workload-type: web-dev
+        carto.run/workload-name: animal-rescue-frontend
+    spec:
+      containers:
+      - image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/animal-rescue-frontend-dev-space@sha256:882ff14fe222485a568d5800efb739467a005c3d798136d832b35ec01795b8c5
+        name: workload
+        resources: {}
+        securityContext:
+          runAsUser: 1000
+      serviceAccountName: default
+
