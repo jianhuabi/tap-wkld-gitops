@@ -1,0 +1,50 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: animal-rescue-backend
+  labels:
+    app.kubernetes.io/part-of: animal-rescue-backend
+    apps.tanzu.vmware.com/workload-type: web-dev
+    app.kubernetes.io/component: run
+    carto.run/workload-name: animal-rescue-backend
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"
+        boot.spring.io/actuator: http://:8081/actuator
+        boot.spring.io/version: 2.5.5
+        conventions.apps.tanzu.vmware.com/applied-conventions: |-
+          spring-boot-convention/spring-boot
+          spring-boot-convention/spring-boot-web
+          spring-boot-convention/spring-boot-actuator
+          appliveview-sample/app-live-view-appflavour-check
+          appliveview-sample/app-live-view-connector-boot
+          appliveview-sample/app-live-view-appflavours-boot
+          appliveview-sample/app-live-view-systemproperties
+        developer.conventions/target-containers: workload
+      labels:
+        app.kubernetes.io/component: run
+        app.kubernetes.io/part-of: animal-rescue-backend
+        apps.tanzu.vmware.com/workload-type: web-dev
+        carto.run/workload-name: animal-rescue-backend
+        conventions.apps.tanzu.vmware.com/framework: spring-boot
+        tanzu.app.live.view: "true"
+        tanzu.app.live.view.application.actuator.port: "8081"
+        tanzu.app.live.view.application.flavours: spring-boot
+        tanzu.app.live.view.application.name: animal-rescue-backend
+    spec:
+      containers:
+      - env:
+        - name: JAVA_TOOL_OPTIONS
+          value: -Dmanagement.endpoint.health.show-details=always -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.server.port="8081" -Dserver.port="8080"
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/animal-rescue-backend-dev-space@sha256:7474a63d366f02765c0727584b1ff003ce54ef1219c3dcd5bfb100ad781385e2
+        name: workload
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        securityContext:
+          runAsUser: 1000
+      serviceAccountName: default
+
