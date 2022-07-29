@@ -41,7 +41,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.show-details=always -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:17c814a4eda797c9af39f4b116cd48ba41261db99affca84247ff11a58acf6e5
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:946920d257d8e0e77959fc1bc1cb94500a7a6b74382813788276eba5cf615017
         name: workload
         ports:
         - containerPort: 8080
