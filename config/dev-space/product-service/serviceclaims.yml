@@ -4,8 +4,6 @@ metadata:
   name: product-service-config-server
   annotations:
     autoscaling.knative.dev/min-scale: "1"
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"annotations":{"autoscaling.knative.dev/min-scale":"1"},"labels":{"app.kubernetes.io/part-of":"product-service","apps.tanzu.vmware.com/has-tests":"false","apps.tanzu.vmware.com/workload-type":"web-dev","networking.knative.dev/visibility":"cluster-local"},"name":"product-service","namespace":"dev-space"},"spec":{"build":{"env":[{"name":"BP_JVM_VERSION","value":"17"}]},"serviceClaims":[{"name":"config-server","ref":{"apiVersion":"services.apps.tanzu.vmware.com/v1alpha1","kind":"ResourceClaim","name":"configserver-binding-compatible"}},{"name":"auth-client","ref":{"apiVersion":"services.apps.tanzu.vmware.com/v1alpha1","kind":"ResourceClaim","name":"auth-client"}}],"source":{"git":{"ref":{"branch":"main"},"url":"https://github.com/tsalm-pivotal/spring-cloud-demo-tap.git"},"subPath":"product-service"}}}
   labels:
     app.kubernetes.io/part-of: product-service
     apps.tanzu.vmware.com/has-tests: "false"
@@ -30,8 +28,6 @@ metadata:
   name: product-service-auth-client
   annotations:
     autoscaling.knative.dev/min-scale: "1"
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"annotations":{"autoscaling.knative.dev/min-scale":"1"},"labels":{"app.kubernetes.io/part-of":"product-service","apps.tanzu.vmware.com/has-tests":"false","apps.tanzu.vmware.com/workload-type":"web-dev","networking.knative.dev/visibility":"cluster-local"},"name":"product-service","namespace":"dev-space"},"spec":{"build":{"env":[{"name":"BP_JVM_VERSION","value":"17"}]},"serviceClaims":[{"name":"config-server","ref":{"apiVersion":"services.apps.tanzu.vmware.com/v1alpha1","kind":"ResourceClaim","name":"configserver-binding-compatible"}},{"name":"auth-client","ref":{"apiVersion":"services.apps.tanzu.vmware.com/v1alpha1","kind":"ResourceClaim","name":"auth-client"}}],"source":{"git":{"ref":{"branch":"main"},"url":"https://github.com/tsalm-pivotal/spring-cloud-demo-tap.git"},"subPath":"product-service"}}}
   labels:
     app.kubernetes.io/part-of: product-service
     apps.tanzu.vmware.com/has-tests: "false"

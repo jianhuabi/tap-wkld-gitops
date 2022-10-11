@@ -30,8 +30,6 @@ spec:
           appliveview-sample/app-live-view-appflavours-boot
           appliveview-sample/app-live-view-systemproperties
         developer.conventions/target-containers: workload
-        kubectl.kubernetes.io/last-applied-configuration: |
-          {"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"annotations":{"autoscaling.knative.dev/min-scale":"1"},"labels":{"app.kubernetes.io/part-of":"product-service","apps.tanzu.vmware.com/has-tests":"false","apps.tanzu.vmware.com/workload-type":"web-dev","networking.knative.dev/visibility":"cluster-local"},"name":"product-service","namespace":"dev-space"},"spec":{"build":{"env":[{"name":"BP_JVM_VERSION","value":"17"}]},"serviceClaims":[{"name":"config-server","ref":{"apiVersion":"services.apps.tanzu.vmware.com/v1alpha1","kind":"ResourceClaim","name":"configserver-binding-compatible"}},{"name":"auth-client","ref":{"apiVersion":"services.apps.tanzu.vmware.com/v1alpha1","kind":"ResourceClaim","name":"auth-client"}}],"source":{"git":{"ref":{"branch":"main"},"url":"https://github.com/tsalm-pivotal/spring-cloud-demo-tap.git"},"subPath":"product-service"}}}
       labels:
         app.kubernetes.io/component: run
         app.kubernetes.io/part-of: product-service
@@ -49,7 +47,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details=always -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/product-service-dev-space@sha256:8a7e28db026496004c23c7eb0a5036a41d322f99a621da6be7d725b14c9b7205
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/product-service-dev-space@sha256:0e7dfb9b21c7f43f0169a1cda6b90d7a430f3a16f5469d7aa6e4ebefbe8e4d5a
         livenessProbe:
           httpGet:
             path: /livez
