@@ -45,4 +45,28 @@ spec:
     apiVersion: serving.knative.dev/v1
     kind: Service
     name: product-service
+---
+apiVersion: servicebinding.io/v1alpha3
+kind: ServiceBinding
+metadata:
+  name: product-service-appsso-ca
+  annotations:
+    autoscaling.knative.dev/min-scale: "1"
+  labels:
+    app.kubernetes.io/part-of: product-service
+    apps.tanzu.vmware.com/has-tests: "false"
+    apps.tanzu.vmware.com/workload-type: web-dev
+    networking.knative.dev/visibility: cluster-local
+    app.kubernetes.io/component: run
+    carto.run/workload-name: product-service
+spec:
+  name: appsso-ca
+  service:
+    apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+    kind: ResourceClaim
+    name: gateway-ca-extra-binding-compatible
+  workload:
+    apiVersion: serving.knative.dev/v1
+    kind: Service
+    name: product-service
 
