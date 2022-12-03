@@ -1,0 +1,35 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: frontend
+  annotations:
+    ootb.apps.tanzu.vmware.com/servicebinding-workload: "true"
+    ootb.apps.tanzu.vmware.com/apidescriptor-ref: "true"
+  labels:
+    app.kubernetes.io/part-of: frontend
+    apps.tanzu.vmware.com/workload-type: web-dev
+    networking.knative.dev/visibility: cluster-local
+    app.kubernetes.io/component: run
+    carto.run/workload-name: frontend
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/min-scale: "1"
+        conventions.carto.run/applied-conventions: appliveview-sample/app-live-view-appflavour-check
+        developer.conventions/target-containers: workload
+      labels:
+        app.kubernetes.io/component: run
+        app.kubernetes.io/part-of: frontend
+        apps.tanzu.vmware.com/workload-type: web-dev
+        carto.run/workload-name: frontend
+        networking.knative.dev/visibility: cluster-local
+    spec:
+      containers:
+      - image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/frontend-dev-space@sha256:48e8b689d3a2cf71ecb2a99fec4132b57ba5e2478501ddbc610b7c38f55ce44a
+        name: workload
+        resources: {}
+        securityContext:
+          runAsUser: 1000
+      serviceAccountName: default
+
