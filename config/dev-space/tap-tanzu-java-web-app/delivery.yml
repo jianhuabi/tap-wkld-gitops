@@ -5,6 +5,7 @@ metadata:
   annotations:
     ootb.apps.tanzu.vmware.com/servicebinding-workload: "true"
     ootb.apps.tanzu.vmware.com/apidescriptor-ref: "true"
+    kapp.k14s.io/change-rule: upsert after upserting servicebinding.io/ServiceBindings
   labels:
     app.kubernetes.io/part-of: tap-tanzu-java-web-app
     apps.tanzu.vmware.com/has-tests: "true"
@@ -15,35 +16,38 @@ spec:
   template:
     metadata:
       annotations:
-        boot.spring.io/actuator: http://:8081/actuator
+        autoscaling.knative.dev/minScale: "1"
         boot.spring.io/version: 2.5.8
         conventions.carto.run/applied-conventions: |-
+          spring-boot-convention/auto-configure-actuators-check
           spring-boot-convention/spring-boot
           spring-boot-convention/spring-boot-graceful-shutdown
           spring-boot-convention/spring-boot-web
           spring-boot-convention/spring-boot-actuator
+          spring-boot-convention/app-live-view-appflavour-check
+          spring-boot-convention/app-live-view-connector-boot
+          spring-boot-convention/app-live-view-appflavours-boot
           appliveview-sample/app-live-view-appflavour-check
-          appliveview-sample/app-live-view-connector-boot
-          appliveview-sample/app-live-view-appflavours-boot
-          appliveview-sample/app-live-view-systemproperties
         developer.conventions/target-containers: workload
       labels:
         app.kubernetes.io/component: run
         app.kubernetes.io/part-of: tap-tanzu-java-web-app
+        apps.tanzu.vmware.com/auto-configure-actuators: "false"
         apps.tanzu.vmware.com/has-tests: "true"
         apps.tanzu.vmware.com/workload-type: web
         carto.run/workload-name: tap-tanzu-java-web-app
-        conventions.apps.tanzu.vmware.com/framework: spring-boot
+        conventions.carto.run/framework: spring-boot
         tanzu.app.live.view: "true"
-        tanzu.app.live.view.application.actuator.port: "8081"
+        tanzu.app.live.view.application.actuator.path: actuator
+        tanzu.app.live.view.application.actuator.port: "8080"
         tanzu.app.live.view.application.flavours: spring-boot
         tanzu.app.live.view.application.name: tap-tanzu-java-web-app
     spec:
       containers:
       - env:
         - name: JAVA_TOOL_OPTIONS
-          value: -Dmanagement.endpoint.health.show-details=always -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include=* -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:7fae88b95bd6860e0bfe0765cf968ca5732306d0346a5cd9d9afa9642155846b
+          value: -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:43994a516779609a58b8ff7f252ff4acb0e124f0615f266c45a360ea79706302
         name: workload
         ports:
         - containerPort: 8080
