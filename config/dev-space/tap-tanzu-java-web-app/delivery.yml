@@ -47,7 +47,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:43994a516779609a58b8ff7f252ff4acb0e124f0615f266c45a360ea79706302
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:d141933dabb9c70212b449678dbaa24810bfe12115be5d21b8d91783aaca157a
         name: workload
         ports:
         - containerPort: 8080
