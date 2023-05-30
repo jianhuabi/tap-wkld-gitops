@@ -1,31 +1,18 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: serving.knative.dev/v1
+kind: Service
 metadata:
   name: aima-tanzu-java-web-app
   annotations:
-    kapp.k14s.io/update-strategy: fallback-on-replace
     ootb.apps.tanzu.vmware.com/servicebinding-workload: "true"
+    ootb.apps.tanzu.vmware.com/apidescriptor-ref: "true"
     kapp.k14s.io/change-rule: upsert after upserting servicebinding.io/ServiceBindings
   labels:
     app.kubernetes.io/part-of: aima-tanzu-java-web-app
     apps.tanzu.vmware.com/auto-configure-actuators: "true"
-    apps.tanzu.vmware.com/workload-type: web-qa
+    apps.tanzu.vmware.com/workload-type: webserverless
     app.kubernetes.io/component: run
     carto.run/workload-name: aima-tanzu-java-web-app
 spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/component: run
-      app.kubernetes.io/part-of: aima-tanzu-java-web-app
-      apps.tanzu.vmware.com/auto-configure-actuators: "true"
-      apps.tanzu.vmware.com/workload-type: web-qa
-      carto.run/workload-name: aima-tanzu-java-web-app
-      conventions.carto.run/framework: spring-boot
-      tanzu.app.live.view: "true"
-      tanzu.app.live.view.application.actuator.path: actuator
-      tanzu.app.live.view.application.actuator.port: "8081"
-      tanzu.app.live.view.application.flavours: spring-boot
-      tanzu.app.live.view.application.name: aima-tanzu-java-web-app
   template:
     metadata:
       annotations:
@@ -48,7 +35,7 @@ spec:
         app.kubernetes.io/component: run
         app.kubernetes.io/part-of: aima-tanzu-java-web-app
         apps.tanzu.vmware.com/auto-configure-actuators: "true"
-        apps.tanzu.vmware.com/workload-type: web-qa
+        apps.tanzu.vmware.com/workload-type: webserverless
         carto.run/workload-name: aima-tanzu-java-web-app
         conventions.carto.run/framework: spring-boot
         tanzu.app.live.view: "true"
@@ -61,7 +48,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details="always" -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include="*" -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/aima-tanzu-java-web-app-dev-space@sha256:1ef13ea029c0269256559c7cb34811c4b854b48a4a5014b5f860c6314a94d9ef
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/aima-tanzu-java-web-app-dev-space@sha256:7974143f47781716f622435913daed324d702287f06e96f24a21a83252af592c
         livenessProbe:
           httpGet:
             path: /livez
@@ -80,32 +67,4 @@ spec:
         securityContext:
           runAsUser: 1000
       serviceAccountName: default
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: aima-tanzu-java-web-app
-  labels:
-    app.kubernetes.io/part-of: aima-tanzu-java-web-app
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"
-    apps.tanzu.vmware.com/workload-type: web-qa
-    app.kubernetes.io/component: run
-    carto.run/workload-name: aima-tanzu-java-web-app
-spec:
-  selector:
-    app.kubernetes.io/component: run
-    app.kubernetes.io/part-of: aima-tanzu-java-web-app
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"
-    apps.tanzu.vmware.com/workload-type: web-qa
-    carto.run/workload-name: aima-tanzu-java-web-app
-    conventions.carto.run/framework: spring-boot
-    tanzu.app.live.view: "true"
-    tanzu.app.live.view.application.actuator.path: actuator
-    tanzu.app.live.view.application.actuator.port: "8081"
-    tanzu.app.live.view.application.flavours: spring-boot
-    tanzu.app.live.view.application.name: aima-tanzu-java-web-app
-  ports:
-  - targetPort: 8080
-    port: 8080
-    name: http
 
