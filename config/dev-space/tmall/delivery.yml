@@ -36,7 +36,7 @@ spec:
           spring-boot-convention/app-live-view-connector-boot
           spring-boot-convention/app-live-view-appflavours-boot
           appliveview-sample/app-live-view-appflavour-check
-        developer.apps.tanzu.vmware.com/image-source-digest: us-docker.pkg.dev/cnr-demo/gcr.io/tmall-source:latest@sha256:1faa5fca5f90dad64ce6109a810f0033c4750f38cf5c9f14d6098e2cd5fde507
+        developer.apps.tanzu.vmware.com/image-source-digest: us-docker.pkg.dev/cnr-demo/gcr.io/tmall-source:latest@sha256:24026a247e6f9fe3875c24a690dd023097ab823cdd4e44fcce4e8c62ae86f293
         developer.conventions/target-containers: workload
       labels:
         app.kubernetes.io/component: run
@@ -59,7 +59,7 @@ spec:
           value: "9005"
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details="always" -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include="*" -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tmall-dev-space@sha256:d9ddf90b9061d1d5a7cdc0c71caaababadaf2ad389eb3e72fd3d09bb84fc65ad
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tmall-dev-space@sha256:00876908c4f35271c42024485d96a700f6482abcd819fc490a3aaf1050e318e7
         livenessProbe:
           httpGet:
             path: /livez
