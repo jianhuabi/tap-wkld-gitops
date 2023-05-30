@@ -16,10 +16,16 @@ spec:
   template:
     metadata:
       annotations:
+        apps.tanzu.vmware.com/debug: "true"
+        apps.tanzu.vmware.com/live-update: "true"
+        autoscaling.knative.dev/maxScale: "1"
         autoscaling.knative.dev/minScale: "1"
         boot.spring.io/actuator: http://:8081/actuator
         boot.spring.io/version: 2.7.5
         conventions.carto.run/applied-conventions: |-
+          developer-conventions/debug-convention
+          developer-conventions/live-update-convention
+          developer-conventions/add-source-image-label
           spring-boot-convention/auto-configure-actuators-check
           spring-boot-convention/spring-boot
           spring-boot-convention/spring-boot-graceful-shutdown
@@ -30,6 +36,7 @@ spec:
           spring-boot-convention/app-live-view-connector-boot
           spring-boot-convention/app-live-view-appflavours-boot
           appliveview-sample/app-live-view-appflavour-check
+        developer.apps.tanzu.vmware.com/image-source-digest: us-docker.pkg.dev/cnr-demo/gcr.io/tmall-source:latest@sha256:1faa5fca5f90dad64ce6109a810f0033c4750f38cf5c9f14d6098e2cd5fde507
         developer.conventions/target-containers: workload
       labels:
         app.kubernetes.io/component: run
@@ -46,9 +53,13 @@ spec:
     spec:
       containers:
       - env:
+        - name: BPL_DEBUG_ENABLED
+          value: "true"
+        - name: BPL_DEBUG_PORT
+          value: "9005"
         - name: JAVA_TOOL_OPTIONS
           value: -Dmanagement.endpoint.health.probes.add-additional-paths="true" -Dmanagement.endpoint.health.show-details="always" -Dmanagement.endpoints.web.base-path="/actuator" -Dmanagement.endpoints.web.exposure.include="*" -Dmanagement.health.probes.enabled="true" -Dmanagement.server.port="8081" -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tmall-dev-space@sha256:fa91f1d9dce29df733081300784341a0b0b058624f3923149a81fbfa4e824503
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tmall-dev-space@sha256:d9ddf90b9061d1d5a7cdc0c71caaababadaf2ad389eb3e72fd3d09bb84fc65ad
         livenessProbe:
           httpGet:
             path: /livez
