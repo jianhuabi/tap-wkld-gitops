@@ -29,6 +29,8 @@ spec:
           spring-boot-convention/app-live-view-appflavours-boot
           appliveview-sample/app-live-view-appflavour-check
         developer.conventions/target-containers: workload
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"annotations":{"autoscaling.knative.dev/minScale":"1"},"labels":{"app.kubernetes.io/part-of":"tap-tanzu-java-web-app","apps.tanzu.vmware.com/has-tests":"true","apps.tanzu.vmware.com/workload-type":"web"},"name":"tap-tanzu-java-web-app","namespace":"dev-space"},"spec":{"source":{"git":{"ref":{"branch":"main"},"url":"https://github.com/jianhuabi/tap-tanzu-java-web-app"}}}}
       labels:
         app.kubernetes.io/component: run
         app.kubernetes.io/part-of: tap-tanzu-java-web-app
@@ -47,7 +49,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:43994a516779609a58b8ff7f252ff4acb0e124f0615f266c45a360ea79706302
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:fff426f85a58301992fc8c2df983b8a241dffc38e41164de2f099a4f17b3eebb
         name: workload
         ports:
         - containerPort: 8080
