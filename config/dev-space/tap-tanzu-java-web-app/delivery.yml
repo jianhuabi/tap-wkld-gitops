@@ -7,7 +7,7 @@ metadata:
     ootb.apps.tanzu.vmware.com/apidescriptor-ref: "true"
     kapp.k14s.io/change-rule: upsert after upserting servicebinding.io/ServiceBindings
   labels:
-    app.kubernetes.io/part-of: tap-tanzu-java-web-app
+    app.kubernetes.io/part-of: tdemo
     apps.tanzu.vmware.com/has-tests: "true"
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/component: run
@@ -31,7 +31,7 @@ spec:
         developer.conventions/target-containers: workload
       labels:
         app.kubernetes.io/component: run
-        app.kubernetes.io/part-of: tap-tanzu-java-web-app
+        app.kubernetes.io/part-of: tdemo
         apps.tanzu.vmware.com/auto-configure-actuators: "false"
         apps.tanzu.vmware.com/has-tests: "true"
         apps.tanzu.vmware.com/workload-type: web
@@ -47,7 +47,7 @@ spec:
       - env:
         - name: JAVA_TOOL_OPTIONS
           value: -Dserver.port="8080" -Dserver.shutdown.grace-period="24s"
-        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:43994a516779609a58b8ff7f252ff4acb0e124f0615f266c45a360ea79706302
+        image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/tap-tanzu-java-web-app-dev-space@sha256:fd525e365521485e8e282d7b8588848b3d591b7b1d805502bf7550d929cef82f
         name: workload
         ports:
         - containerPort: 8080
