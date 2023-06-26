@@ -5,9 +5,10 @@ metadata:
   annotations:
     ootb.apps.tanzu.vmware.com/servicebinding-workload: "true"
     ootb.apps.tanzu.vmware.com/apidescriptor-ref: "true"
+    kapp.k14s.io/change-rule: upsert after upserting servicebinding.io/ServiceBindings
   labels:
     app.kubernetes.io/part-of: frontend
-    apps.tanzu.vmware.com/workload-type: web-dev
+    apps.tanzu.vmware.com/workload-type: webserverless
     networking.knative.dev/visibility: cluster-local
     app.kubernetes.io/component: run
     carto.run/workload-name: frontend
@@ -16,17 +17,22 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/min-scale: "1"
-        conventions.carto.run/applied-conventions: appliveview-sample/app-live-view-appflavour-check
+        conventions.carto.run/applied-conventions: |-
+          spring-boot-convention/auto-configure-actuators-check
+          spring-boot-convention/app-live-view-appflavour-check
+          appliveview-sample/app-live-view-appflavour-check
         developer.conventions/target-containers: workload
+        kubectl.kubernetes.io/last-applied-configuration: |
+          {"apiVersion":"carto.run/v1alpha1","kind":"Workload","metadata":{"annotations":{"autoscaling.knative.dev/min-scale":"1"},"labels":{"app.kubernetes.io/part-of":"frontend","apps.tanzu.vmware.com/workload-type":"webserverless","networking.knative.dev/visibility":"cluster-local"},"name":"frontend","namespace":"dev-space"},"spec":{"build":{"env":[{"name":"BP_NODE_RUN_SCRIPTS","value":"build"},{"name":"BP_WEB_SERVER","value":"nginx"},{"name":"BP_WEB_SERVER_ROOT","value":"dist/frontend"},{"name":"BP_WEB_SERVER_ENABLE_PUSH_STATE","value":"true"}]},"source":{"git":{"ref":{"branch":"main"},"url":"https://github.com/jianhuabi/spring-cloud-demo-tap.git"},"subPath":"frontend"}}}
       labels:
         app.kubernetes.io/component: run
         app.kubernetes.io/part-of: frontend
-        apps.tanzu.vmware.com/workload-type: web-dev
+        apps.tanzu.vmware.com/workload-type: webserverless
         carto.run/workload-name: frontend
         networking.knative.dev/visibility: cluster-local
     spec:
       containers:
-      - image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/frontend-dev-space@sha256:e070100e4929329a0850e376f1930c85d2e6e2f5a0b14ec39a476c8c8b4c0ba1
+      - image: us-docker.pkg.dev/cnr-demo/gcr.io/tap-wkld/frontend-dev-space@sha256:f0bb80fbc26a3b5a88541ed8a40781ac190d56a7f7f39da3d1c3947e38cd77f9
         name: workload
         resources: {}
         securityContext:
